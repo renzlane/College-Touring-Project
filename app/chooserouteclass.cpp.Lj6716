@@ -1,0 +1,69 @@
+#include "chooserouteclass.h"
+#include "ui_chooserouteclass.h"
+#include "student.h"
+#include "asu.h"
+#include "chosencampusclass.h"
+
+#define UCI_FILENAME "uci.png"
+#define ASU_FILENAME "asu.png"
+#define CUS_FILENAME "custom.png"
+
+#include <QDir>
+
+chooserouteclass::chooserouteclass(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::chooserouteclass)
+{
+    ui->setupUi(this);
+    QDir databaseDir(QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation));
+    databaseDir.mkdir(DB_SUBFOLDER);
+    databaseDir.cd(DB_SUBFOLDER);
+
+    QPixmap campusUCI(databaseDir.absoluteFilePath(UCI_FILENAME));
+    QPixmap campusASU(databaseDir.absoluteFilePath(ASU_FILENAME));
+    QPixmap campusCUS(databaseDir.absoluteFilePath(CUS_FILENAME));
+
+    ui -> label_pic_uci -> setPixmap(campusUCI.scaled(100, 100, Qt::KeepAspectRatio));
+    ui -> label_pic_asu  -> setPixmap(campusASU.scaled(100, 100, Qt::KeepAspectRatio));
+    ui -> label_pic_cus  -> setPixmap(campusCUS.scaled(100, 100, Qt::KeepAspectRatio));
+}
+
+chooserouteclass::~chooserouteclass()
+{
+    delete ui;
+}
+
+void chooserouteclass::on_go_back_button_clicked()
+{
+	close();
+	student *studentWindow = new student;
+	//studentWindow.setModal(true);
+	//studentWindow.exec();
+	studentWindow->show();
+}
+
+void chooserouteclass::on_initial_asu_button_clicked()
+{
+	close();
+	asu *asuWindow = new asu;
+	asuWindow->show();
+}
+
+void chooserouteclass::on_short_trip_uci_button_clicked()
+{
+
+	close();
+	chosencampusclass *display = new chosencampusclass;
+	display->show();
+	//display.setModal(true);
+	//display.exec();
+}
+
+void chooserouteclass::on_custom_trip_button_clicked()
+{
+	close();
+	chosencampusclass *display = new chosencampusclass;
+	display->show();
+	//display.setModal(true);
+	//display.exec();
+}
